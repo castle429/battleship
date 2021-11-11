@@ -1,31 +1,18 @@
-import { GameBoard } from "./gameboard";
-
-
-const Player = () => {
-    let enemyGameboard;
+const Player = (name, type) => {
     let ownGameBoard;
 
     const setOwnGameboard = (gameboard) => {
         ownGameBoard = gameboard;
     }
 
-    const setEnemyGameboard = (gameboard) => {
-        enemyGameboard = gameboard;
-    }
-
-    const placeShipOnBoard = (x, y, ship) => {
-        ownGameBoard.placeShip(x, y, ship);
-    }
-
-    const makeAttack = (xCoord, yCoord) => {
-        enemyGameboard.receiveAttack(xCoord, yCoord);
+    const getOwnGameboard = () => {
+        return ownGameBoard;
     }
 
     return {
         setOwnGameboard,
-        setEnemyGameboard,
-        makeAttack
+        getOwnGameboard,
     }
-
-
 }
+
+module.exports = Player;

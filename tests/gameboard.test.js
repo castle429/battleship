@@ -1,4 +1,4 @@
-const ship = require("../scripts/ship");
+const ship = require("../scripts/ship.js");
 const gameboard = require("../scripts/gameboard");
 
 
@@ -126,7 +126,7 @@ test("miss registers as 'M' at attack location on game matrix", () => {
         expect(hitArray[i]).toBe("S");
     }
 
-    expect(gameMatrix[3, 5]).toBe("M");
+    expect(gameMatrix[5][3]).toBe("M");
 });
 
 test("ship is sunk when all its positions on the gameboard are hit", () => {

@@ -12,10 +12,6 @@ const GameBoard = () => {
         return x > -1 && y > -1 && x < gameMatrix.length && y < gameMatrix.length;
     }
 
-    const boundsAreValid = (x, y, length) => {
-        return x + length < gameMatrix.length && y + length < gameMatrix.length;
-    }
-
     const spaceIsUnoccupied = (x, y, orient, length) => {
         if(orient == 'H') {
             for(let i = x; i < x + length; i++) {
@@ -36,8 +32,8 @@ const GameBoard = () => {
         return true;
     }
 
-    const addShipToList = (ship, x, y) => {
-        let shipArr = [ship, x, y];
+    const addShipToList = (ship, y, x) => {
+        let shipArr = [ship, y, x];
         ships.push(shipArr);
     }
 
@@ -45,7 +41,7 @@ const GameBoard = () => {
         let orientation = ship.getOrientation();
         let shipLength = ship.getHitArray().length;
 
-        if(!coordsAreValid(xCoord, yCoord) || !boundsAreValid(xCoord, yCoord, shipLength) || !spaceIsUnoccupied(xCoord, yCoord, orientation, shipLength)) {
+        if(!coordsAreValid(xCoord, yCoord) || !spaceIsUnoccupied(xCoord, yCoord, orientation, shipLength)) {
            return false;
         }
 
@@ -60,7 +56,7 @@ const GameBoard = () => {
             }
         }
 
-        addShipToList(ship, xCoord, yCoord);
+        addShipToList(ship, yCoord, xCoord);
         return true;
     }
 
@@ -69,19 +65,22 @@ const GameBoard = () => {
 
         for(let i = 0; i < ships.length; i++) {
             let ship = ships[i][0];
-            let shipX = ships[i][1];
-            let shipY = ships[i][2];
+            let shipY = ships[i][1];
+            let shipX = ships[i][2];
 
             if(ship.getOrientation() == 'H') {
                 if(y == shipY) {
                     positionToHit = x - shipX;
                     let attack = ship.hit(positionToHit);
                     if(attack == "miss") {
-                        gameMatrix[x, y] = "M";
+                        gameMatrix[y][x] = "M";
+                    }
+                    else {
+                        gameMatrix[y][x] = "X";
                     }
                 }
                 else {
-                    gameMatrix[x, y] = "M";
+                    gameMatrix[y][x] = "M";
                 }
             }
 
@@ -90,17 +89,24 @@ const GameBoard = () => {
                     positionToHit = y - shipY;
                     let attack = ship.hit(positionToHit);
                     if(attack == "miss") {
-                        gameMatrix[x, y] = "M";
+                        gameMatrix[y][x] = "M";
+                    }
+                    else {
+                        gameMatrix[y][x] = "X";
                     }
                 }
                 else {
-                    gameMatrix[x, y] = "M";
+                    gameMatrix[y][x] = "M";
                 }
             }
 
             if(ship.isSunk()) {
                 numShipsSunk++;
             }
+        }
+
+        if(gameMatrix[y][x] == undefined) {
+            gameMatrix[y][x] = "M";
         }
     }
 
@@ -120,4 +126,4 @@ const GameBoard = () => {
     }
 }
 
-module.exports = GameBoard;
+export default GameBoard;

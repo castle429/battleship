@@ -2,8 +2,13 @@
 const Player = (name, type) => {
     let ownGameBoard;
     let opponentGameBoard;
-    let prevMoves = [];
-    let isTurn = true;
+    const possibleMoves = [];
+
+    for(let i = 0; i < 10; i++) {
+        for(let j = 0; j < 10; j++) {
+            possibleMoves.push([i, j]);
+        }
+    }
 
     const setOwnGameboard = (gameboard) => {
         ownGameBoard = gameboard;
@@ -25,27 +30,38 @@ const Player = (name, type) => {
         return name;
     }
 
+    const getIndexOfMove = (x, y) => {
+        for(let i = 0; i < possibleMoves.length; i++) {
+            if(possibleMoves[i][0] == x && possibleMoves[i][1] == y) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     const makeAttack = (x, y) => {
-        if(!prevMoves.includes([x, y]) && isTurn) {
+        let index = getIndexOfMove(x, y);
+        console.log("Index:" + index);
+
+        if(index != -1) {
+            possibleMoves.splice(index, 1);
             opponentGameBoard.receiveAttack(x, y);
-            prevMoves.push([x, y]);
-            isTurn = false;
         }
-
-        else if(!isTurn) {
-            isTurn = true;
-            return false;
-        }
-
         else {
-            return false;
+            alert("not a valid move");
         }
+
+
     }
 
     const makeComputerAttack = () => {
         if(type == "com") {
-            let x = Math.floor(Math.random() * 10);
-            let y = Math.floor(Math.random() * 10);
+            let randIndex = Math.floor(Math.random() * possibleMoves.length);
+            let randValue = possibleMoves[randIndex];
+            let x = randValue[0];
+            let y = randValue[1];
+
             makeAttack(x, y);
             return [x, y];
         }

@@ -61,51 +61,11 @@ const GameBoard = () => {
     }
 
     const receiveAttack = (x, y) => {
-        let positionToHit;
-
-        for(let i = 0; i < ships.length; i++) {
-            let ship = ships[i][0];
-            let shipY = ships[i][1];
-            let shipX = ships[i][2];
-
-            if(ship.getOrientation() == 'H') {
-                if(y == shipY) {
-                    positionToHit = x - shipX;
-                    let attack = ship.hit(positionToHit);
-                    if(attack == "miss") {
-                        gameMatrix[y][x] = "M";
-                    }
-                    else {
-                        gameMatrix[y][x] = "X";
-                    }
-                }
-                else {
-                    gameMatrix[y][x] = "M";
-                }
-            }
-
-            if(ship.getOrientation() == 'V') {
-                if(x == shipX) {
-                    positionToHit = y - shipY;
-                    let attack = ship.hit(positionToHit);
-                    if(attack == "miss") {
-                        gameMatrix[y][x] = "M";
-                    }
-                    else {
-                        gameMatrix[y][x] = "X";
-                    }
-                }
-                else {
-                    gameMatrix[y][x] = "M";
-                }
-            }
-
-            if(ship.isSunk()) {
-                numShipsSunk++;
-            }
+        console.log(gameMatrix)
+        if(gameMatrix[x][y] == "S") {
+            gameMatrix[y][x] = "H";
         }
-
-        if(gameMatrix[y][x] == undefined) {
+        else {
             gameMatrix[y][x] = "M";
         }
     }

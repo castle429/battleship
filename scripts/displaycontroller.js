@@ -2,9 +2,13 @@
 const DisplayController = (() => {
     'use strict';
 
-    function displayGameboard(gameBoardMatrix, player) {
+    let gameboardDisplay;
+
+    function displayGameboard(gameBoardMatrix, playerName) {
         let gameboardTable = document.createElement("table");
-        gameboardTable.id = player;
+        gameboardTable.classList.add("gameboard");
+        gameboardTable.setAttribute("id", playerName);
+        
         let gameboardRow;
         for(let i = 0; i < gameBoardMatrix.length; i++) {
             gameboardRow = document.createElement("tr");
@@ -20,17 +24,24 @@ const DisplayController = (() => {
             }
             gameboardTable.appendChild(gameboardRow);
         }
+
         document.body.appendChild(gameboardTable);
+        gameboardDisplay = gameboardTable;
     }
 
-    function registerAttack(gameboard, x, y) {
-        if(gameboard[x][y] == undefined) {
+    function updateGameboardDisplay(gameBoardMatrix, tableID, x, y) {
+        let spotInMatrix = gameBoardMatrix[y][x];
+        let table = document.getElementById(tableID);
+        let updatedCell = table.querySelector(`[x="${x}"][y="${y}"]`);
 
-        }
+        updatedCell.innerHTML = spotInMatrix;
     }
+
+
 
     return {
-        displayGameboard
+        displayGameboard,
+        updateGameboardDisplay
     }
     
 })();

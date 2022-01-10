@@ -1,3 +1,8 @@
+.gameboard {
+    float: left;
+    margin-right: 20em;
+}
+
 .gameboard > tr, td {
     border: 1px solid black;
     width: 2em;
